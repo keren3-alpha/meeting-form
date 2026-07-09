@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Joel &amp; Becky, Save the Date</title>
+<title>Joel &amp; Becky — Save the Date</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
@@ -56,7 +56,6 @@
     overflow:hidden;
   }
 
-  /* Remove scroll-snap from RSVP section */
   #s-rsvp {
     scroll-snap-align: none;
   }
@@ -740,7 +739,7 @@
     letter-spacing: 1px;
   }
 
-  /* ================= SECTION 5 — RSVP ================= */
+  /* ================= SECTION 5 — RSVP (ALL FIELDS VISIBLE) ================= */
   #s-rsvp{
     background: linear-gradient(180deg, #edf3f8 0%, #dae5f0 100%);
     position:relative;
@@ -907,15 +906,50 @@
     color: var(--sage);
   }
 
-  .field{ text-align:left; margin-bottom:16px; }
-  .field label{ display:block; font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:#5c6b73; margin-bottom:6px; font-weight:600;}
-  .field .hint{ display:block; font-size:12px; color:var(--sage); text-transform:none; letter-spacing:0; font-weight:400; margin-top:-2px; margin-bottom:6px; font-style:italic;}
-  .field input[type=text]{
-    width:100%; padding:12px; font-family:'Cormorant Garamond', serif; font-size:16px;
-    border:1px solid #c2cfdc; border-radius:6px; background:#fff; color:var(--ink);
-    outline:none; transition:border-color .2s, box-shadow .2s; min-height:44px;
+  /* ===== FIX: ALL RSVP FIELDS ALWAYS VISIBLE ===== */
+  .field{ 
+    text-align:left; 
+    margin-bottom:16px; 
+    display:block !important; 
   }
-  .field input:focus{ border-color:var(--royal-bright); box-shadow:0 0 0 3px rgba(27,68,119,.1); }
+  .field label{ 
+    display:block; 
+    font-size:12px; 
+    letter-spacing:.1em; 
+    text-transform:uppercase; 
+    color:#5c6b73; 
+    margin-bottom:6px; 
+    font-weight:600;
+  }
+  .field .hint{ 
+    display:block; 
+    font-size:12px; 
+    color:var(--sage); 
+    text-transform:none; 
+    letter-spacing:0; 
+    font-weight:400; 
+    margin-top:-2px; 
+    margin-bottom:6px; 
+    font-style:italic;
+  }
+  .field input[type=text]{
+    width:100%; 
+    padding:12px; 
+    font-family:'Cormorant Garamond', serif; 
+    font-size:16px;
+    border:1px solid #c2cfdc; 
+    border-radius:6px; 
+    background:#fff; 
+    color:var(--ink);
+    outline:none; 
+    transition:border-color .2s, box-shadow .2s; 
+    min-height:44px;
+  }
+  .field input:focus{ 
+    border-color:var(--royal-bright); 
+    box-shadow:0 0 0 3px rgba(27,68,119,.1); 
+  }
+  
   .yn-group{ display:flex; gap:10px; }
   .yn-btn{
     flex:1; padding:12px 0; border-radius:6px; border:1px solid #c2cfdc;
@@ -924,32 +958,16 @@
   }
   .yn-btn.selected{ background:var(--royal-blue); border-color:var(--royal-blue); color:var(--gold-light); box-shadow:0 6px 14px -6px rgba(17,54,99,.5);}
 
-  /* FIX: Make guests-field visible when show class is added */
-  .guests-field{ 
-    max-height: 0; 
-    overflow: hidden; 
-    transition: max-height 0.5s ease, margin 0.4s ease, opacity 0.4s ease; 
-    margin-bottom: 0;
-    opacity: 0;
-  }
-  .guests-field.show{ 
-    max-height: 500px; 
-    margin-bottom: 16px; 
-    opacity: 1;
-  }
-
-  /* FIX: Make contact-wrap visible when show class is added */
-  #contact-wrap { 
-    max-height: 0; 
-    overflow: hidden; 
-    transition: max-height 0.5s ease, margin 0.4s ease, opacity 0.4s ease; 
-    margin-bottom: 0;
-    opacity: 0;
-  }
-  #contact-wrap.show{ 
-    max-height: 500px; 
-    margin-bottom: 16px; 
-    opacity: 1;
+  /* FIX: Guests and Contact fields ALWAYS visible - no hiding */
+  .guests-field, 
+  #contact-wrap,
+  .guests-field.show,
+  #contact-wrap.show {
+    max-height: none !important;
+    overflow: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+    margin-bottom: 16px !important;
   }
 
   .radio-list{ display:flex; flex-direction:column; gap:8px; margin-top:4px; }
@@ -1080,6 +1098,7 @@
         <span class="event-line reveal stagger-5"><span class="highlight-gold">Introduction</span> &amp; <span class="highlight-gold">Wedding Meeting</span> Launch Dinner</span>
         <span class="event-date reveal stagger-6">July 31, 2026 <span class="gold-dash">—</span> Busunju</span>
       </div>
+      <div class="down-hint"><span>Scroll to RSVP</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
     </div>
   </section>
 
@@ -1134,17 +1153,17 @@
     </div>
   </section>
 
-  <!-- SECTION 5: RSVP -->
+  <!-- SECTION 5: RSVP (ALL FIELDS VISIBLE) -->
   <section class="section" id="s-rsvp">
     <div class="corner tl"><svg viewBox="0 0 150 150"><path d="M0,0 Q40,10 45,50 Q50,90 90,95" stroke="#1b4477" stroke-width="1.2" fill="none" opacity="0.3"/><circle cx="8" cy="8" r="3" fill="#c9a35a"/></svg></div>
     <div class="corner br"><svg viewBox="0 0 150 150"><path d="M0,0 Q40,10 45,50 Q50,90 90,95" stroke="#1b4477" stroke-width="1.2" fill="none" opacity="0.3"/><circle cx="8" cy="8" r="3" fill="#c9a35a"/></svg></div>
-    <div class="rsvp-card reveal-scale stagger-1">
+    <div class="rsvp-card">
       <div id="rsvp-form-wrap">
-        <div class="rsvp-seal-mini reveal stagger-2">J&amp;B</div>
-        <div class="rsvp-title reveal stagger-3">Kindly RSVP</div>
-        <div class="rsvp-sub reveal stagger-4">For the Introduction &amp; Wedding Meeting Launch Dinner</div>
+        <div class="rsvp-seal-mini">J&amp;B</div>
+        <div class="rsvp-title">Kindly RSVP</div>
+        <div class="rsvp-sub">For the Introduction &amp; Wedding Meeting Launch Dinner</div>
         
-        <div class="rsvp-info-card reveal stagger-5">
+        <div class="rsvp-info-card">
           <div class="info-title">✦ <span class="gold-acc">Event</span> Details ✦</div>
           
           <div class="phone-row">
@@ -1181,12 +1200,12 @@
           </div>
         </div>
         
-        <div class="field reveal-left stagger-6">
+        <div class="field">
           <label for="guest-name">Your Full Name</label>
           <input type="text" id="guest-name" placeholder="e.g., John Doe" autocomplete="name">
         </div>
 
-        <div class="field reveal-right stagger-7">
+        <div class="field">
           <label>Will you attend?</label>
           <div class="yn-group">
             <button type="button" class="yn-btn" id="btn-yes">Joyfully Attend</button>
@@ -1194,37 +1213,39 @@
           </div>
         </div>
 
-        <div class="field guests-field" id="guests-wrap">
+        <!-- GUESTS FIELD - ALWAYS VISIBLE -->
+        <div class="field guests-field">
           <label>Number of Guests <span style="font-weight:400;color:var(--sage);font-size:12px;text-transform:none;letter-spacing:0;">(including yourself)</span></label>
           <div class="radio-list">
-            <div class="radio-row reveal-left stagger-8">
+            <div class="radio-row">
               <input type="radio" name="guest_count" value="1" id="g-1" checked>
               <label for="g-1" class="radio-row-label"><span class="dot"></span>1 person (Just me)</label>
             </div>
-            <div class="radio-row reveal-right stagger-9">
+            <div class="radio-row">
               <input type="radio" name="guest_count" value="2" id="g-2">
               <label for="g-2" class="radio-row-label"><span class="dot"></span>2 people (Me + 1)</label>
             </div>
-            <div class="radio-row reveal-left stagger-10">
+            <div class="radio-row">
               <input type="radio" name="guest_count" value="3" id="g-3">
               <label for="g-3" class="radio-row-label"><span class="dot"></span>3 people (Me + 2)</label>
             </div>
-            <div class="radio-row reveal-right stagger-11">
+            <div class="radio-row">
               <input type="radio" name="guest_count" value="4" id="g-4">
               <label for="g-4" class="radio-row-label"><span class="dot"></span>3+ people (Me + more)</label>
             </div>
           </div>
         </div>
 
+        <!-- CONTACT FIELD - ALWAYS VISIBLE -->
         <div class="field" id="contact-wrap">
           <label for="guest-contact">Email or Phone Number</label>
           <span class="hint">So we can send you updates or reach you if needed</span>
           <input type="text" id="guest-contact" placeholder="e.g., name@email.com or 07XX XXX XXX" autocomplete="email">
         </div>
 
-        <button type="button" class="submit-btn reveal stagger-12" id="submit-rsvp" disabled>Send RSVP</button>
+        <button type="button" class="submit-btn" id="submit-rsvp" disabled>Send RSVP</button>
         <div class="error-msg" id="error-msg">Please fill out all required fields.</div>
-        <div class="rsvp-note reveal stagger-13">We look forward to celebrating with you!</div>
+        <div class="rsvp-note">We look forward to celebrating with you!</div>
       </div>
 
       <div class="thankyou" id="thankyou">
@@ -1270,10 +1291,10 @@
     });
   }
   
-  // ===== GENERATE STARS (REDUCED) =====
+  // ===== GENERATE STARS =====
   function generateStars() {
     const starfield = document.getElementById('starfield');
-    const starCount = 25; // Reduced from 80 to 25
+    const starCount = 25;
     
     for (let i = 0; i < starCount; i++) {
       const star = document.createElement('div');
@@ -1383,8 +1404,6 @@
   const contactInput = document.getElementById('guest-contact');
   const btnYes = document.getElementById('btn-yes');
   const btnNo = document.getElementById('btn-no');
-  const guestsWrap = document.getElementById('guests-wrap');
-  const contactWrap = document.getElementById('contact-wrap');
   const submitBtn = document.getElementById('submit-rsvp');
   const errorMsg = document.getElementById('error-msg');
 
@@ -1392,8 +1411,6 @@
     attending = 'yes';
     btnYes.classList.add('selected');
     btnNo.classList.remove('selected');
-    guestsWrap.classList.add('show');
-    contactWrap.classList.add('show');
     validate();
   });
 
@@ -1401,8 +1418,6 @@
     attending = 'no';
     btnNo.classList.add('selected');
     btnYes.classList.remove('selected');
-    guestsWrap.classList.remove('show');
-    contactWrap.classList.remove('show');
     document.getElementById('g-1').checked = true;
     validate();
   });
