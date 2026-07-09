@@ -132,13 +132,13 @@
     100% { transform: translateY(0) scale(1); }
   }
   
-  /* Scroll Reveal */
+  /* Scroll Reveal - Using IntersectionObserver */
   .reveal {
     opacity: 0;
     transform: translateY(50px);
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
-  .reveal.active {
+  .reveal.visible {
     opacity: 1;
     transform: translateY(0);
   }
@@ -147,7 +147,7 @@
     transform: translateX(-60px);
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
-  .reveal-left.active {
+  .reveal-left.visible {
     opacity: 1;
     transform: translateX(0);
   }
@@ -156,7 +156,7 @@
     transform: translateX(60px);
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
-  .reveal-right.active {
+  .reveal-right.visible {
     opacity: 1;
     transform: translateX(0);
   }
@@ -165,7 +165,7 @@
     transform: scale(0.8);
     transition: opacity 0.8s ease, transform 0.8s ease;
   }
-  .reveal-scale.active {
+  .reveal-scale.visible {
     opacity: 1;
     transform: scale(1);
   }
@@ -739,7 +739,7 @@
     letter-spacing: 1px;
   }
 
-  /* ================= SECTION 5 — RSVP (WORKING WITH BUTTONS) ================= */
+  /* ================= SECTION 5 — RSVP ================= */
   #s-rsvp{
     background: linear-gradient(180deg, #edf3f8 0%, #dae5f0 100%);
     position:relative;
@@ -906,7 +906,7 @@
     color: var(--sage);
   }
 
-  /* ===== FORM FIELDS - HIDDEN BY DEFAULT, SHOWN ON BUTTON CLICK ===== */
+  /* ===== FORM FIELDS ===== */
   .field{ 
     text-align:left; 
     margin-bottom:16px; 
@@ -957,7 +957,7 @@
   }
   .yn-btn.selected{ background:var(--royal-blue); border-color:var(--royal-blue); color:var(--gold-light); box-shadow:0 6px 14px -6px rgba(17,54,99,.5);}
 
-  /* HIDDEN FIELDS - Initially hidden, shown when show class is added */
+  /* Hidden fields - shown when button clicked */
   .hidden-fields { 
     max-height: 0; 
     overflow: hidden; 
@@ -1283,18 +1283,28 @@
     setTimeout(typeChar, 300);
   }
   
-  // ===== SCROLL REVEAL =====
-  function handleScrollReveal() {
+  // ===== INTERSECTION OBSERVER - RELIABLE REVEAL =====
+  function setupIntersectionObserver() {
     const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
-    const windowHeight = window.innerHeight;
-    const revealPoint = 120;
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Optional: stop observing once revealed
+          // observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    });
     
     reveals.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < windowHeight - revealPoint) {
-        el.classList.add('active');
-      }
+      observer.observe(el);
     });
+    
+    return observer;
   }
   
   // ===== GENERATE STARS =====
@@ -1346,6 +1356,10 @@
 
   const dots = dotsContainer.querySelectorAll('button');
   
+  // Setup IntersectionObserver after DOM is ready
+  let observer = setupIntersectionObserver();
+  
+  // Also handle dots and re-check visibility on scroll
   stage.addEventListener('scroll', () => {
     const scrollPos = stage.scrollTop + (window.innerHeight / 2);
     sections.forEach((sec, i) => {
@@ -1354,10 +1368,20 @@
         dots[i].classList.add('active');
       }
     });
-    handleScrollReveal();
   });
 
-  setTimeout(handleScrollReveal, 500);
+  // Re-check visibility after envelope opens (when scroll happens)
+  setTimeout(() => {
+    // Force a re-check of all reveal elements
+    const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+    reveals.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      if (rect.top < windowHeight - 50) {
+        el.classList.add('visible');
+      }
+    });
+  }, 2000);
 
   const envelope = document.getElementById('envelope');
   envelope.addEventListener('click', () => {
@@ -1367,6 +1391,18 @@
         stage.classList.add('unlocked');
         dotsContainer.classList.add('show-dots');
         stage.scrollTo({ top: sections[1].offsetTop, behavior: 'smooth' });
+        
+        // Re-check visibility after scroll animation completes
+        setTimeout(() => {
+          const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+          reveals.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            if (rect.top < windowHeight - 50) {
+              el.classList.add('visible');
+            }
+          });
+        }, 800);
       }, 1600);
     }
   });
