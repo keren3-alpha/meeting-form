@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Joel &amp; Becky — Save the Date</title>
+<title>Joel &amp; Becky, Save the Date</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
@@ -43,6 +43,7 @@
   }
   .stage.unlocked {
     overflow-y: scroll;
+    scroll-snap-type:none;
   }
   .section{
     position:relative;
@@ -53,6 +54,11 @@
     justify-content:center;
     padding:32px 24px;
     overflow:hidden;
+  }
+
+  /* Remove scroll-snap from RSVP section */
+  #s-rsvp {
+    scroll-snap-align: none;
   }
 
   .botanical-bg {
@@ -178,6 +184,7 @@
   .stagger-10 { transition-delay: 1.0s; }
   .stagger-11 { transition-delay: 1.1s; }
   .stagger-12 { transition-delay: 1.2s; }
+  .stagger-13 { transition-delay: 1.3s; }
 
   /* ================= SECTION 1 — ENVELOPE ================= */
   #s-envelope{
@@ -467,7 +474,6 @@
     line-height:1; margin:6px 0;
   }
 
-  /* Bigger Event Details */
   .event-details {
     margin: 10px 0 0;
   }
@@ -742,13 +748,18 @@
     -webkit-overflow-scrolling:touch;
     overscroll-behavior:contain;
     align-items:flex-start;
-    padding-top:48px; padding-bottom:48px;
+    padding-top:40px; padding-bottom:40px;
+    min-height:100vh;
+    min-height:100dvh;
   }
+  
   .rsvp-card{
     position: relative; z-index: 2; width:min(90vw, 380px); background:#ffffff;
     color:var(--ink); border-radius:16px; padding:30px 26px 24px;
     box-shadow:0 30px 60px -22px rgba(17,37,61,.3); border:1px solid rgba(201,163,90,0.35); text-align:center;
     margin:0 auto;
+    margin-top:20px;
+    margin-bottom:20px;
   }
   .rsvp-seal-mini{
     width:44px; height:44px; border-radius:50%; margin:0 auto 14px;
@@ -913,8 +924,33 @@
   }
   .yn-btn.selected{ background:var(--royal-blue); border-color:var(--royal-blue); color:var(--gold-light); box-shadow:0 6px 14px -6px rgba(17,54,99,.5);}
 
-  .guests-field{ max-height:0; overflow:hidden; transition:max-height .4s ease, margin .4s ease; margin-bottom:0;}
-  .guests-field.show{ max-height:320px; margin-bottom:16px; }
+  /* FIX: Make guests-field visible when show class is added */
+  .guests-field{ 
+    max-height: 0; 
+    overflow: hidden; 
+    transition: max-height 0.5s ease, margin 0.4s ease, opacity 0.4s ease; 
+    margin-bottom: 0;
+    opacity: 0;
+  }
+  .guests-field.show{ 
+    max-height: 500px; 
+    margin-bottom: 16px; 
+    opacity: 1;
+  }
+
+  /* FIX: Make contact-wrap visible when show class is added */
+  #contact-wrap { 
+    max-height: 0; 
+    overflow: hidden; 
+    transition: max-height 0.5s ease, margin 0.4s ease, opacity 0.4s ease; 
+    margin-bottom: 0;
+    opacity: 0;
+  }
+  #contact-wrap.show{ 
+    max-height: 500px; 
+    margin-bottom: 16px; 
+    opacity: 1;
+  }
 
   .radio-list{ display:flex; flex-direction:column; gap:8px; margin-top:4px; }
   .radio-row{ position:relative; }
@@ -973,6 +1009,23 @@
     animation:bob 2.2s ease-in-out infinite; z-index: 3;
   }
   @keyframes bob{ 0%,100%{transform:translate(-50%,0);} 50%{transform:translate(-50%,6px);} }
+
+  /* Mobile Fixes */
+  @media (max-width: 480px) {
+    .section { padding: 20px 16px; }
+    .rsvp-card { padding: 20px 16px; margin-top:10px; margin-bottom:10px; }
+    .env-seal { width: 48px; height: 48px; font-size: 22px; }
+    .photo-frame { width: min(60vw, 180px); height: min(60vw, 180px); }
+    .countdown { gap: 6px; padding: 10px 12px; }
+    .cd-box { width: 48px; }
+    .cd-num { font-size: 18px; }
+    .rsvp-info-card .phone-row { gap: 10px; }
+    .rsvp-info-card .phone-item { font-size: 13px; padding: 4px 12px; }
+    .dots { right: 8px; gap: 8px; }
+    .dots button { width: 8px; height: 8px; }
+    .dots button.active { width: 10px; height: 10px; }
+    #s-rsvp { padding-top:20px; padding-bottom:20px; min-height:auto; }
+  }
 </style>
 </head>
 <body>
@@ -1025,7 +1078,7 @@
       <div class="event-details">
         <span class="event-line reveal stagger-4">Invite you to their</span>
         <span class="event-line reveal stagger-5"><span class="highlight-gold">Introduction</span> &amp; <span class="highlight-gold">Wedding Meeting</span> Launch Dinner</span>
-        <span class="event-date reveal stagger-6">July 31, 2026 <span class="gold-dash">-</span> Busunju</span>
+        <span class="event-date reveal stagger-6">July 31, 2026 <span class="gold-dash">—</span> Busunju</span>
       </div>
     </div>
   </section>
@@ -1158,12 +1211,12 @@
             </div>
             <div class="radio-row reveal-right stagger-11">
               <input type="radio" name="guest_count" value="4" id="g-4">
-              <label for="g-4" class="radio-row-label"><span class="dot"></span>4+ people (Me + more)</label>
+              <label for="g-4" class="radio-row-label"><span class="dot"></span>3+ people (Me + more)</label>
             </div>
           </div>
         </div>
 
-        <div class="field guests-field" id="contact-wrap">
+        <div class="field" id="contact-wrap">
           <label for="guest-contact">Email or Phone Number</label>
           <span class="hint">So we can send you updates or reach you if needed</span>
           <input type="text" id="guest-contact" placeholder="e.g., name@email.com or 07XX XXX XXX" autocomplete="email">
@@ -1200,7 +1253,6 @@
       }
     }
     
-    // Start typing after a short delay
     setTimeout(typeChar, 300);
   }
   
@@ -1218,10 +1270,10 @@
     });
   }
   
-  // ===== GENERATE STARS =====
+  // ===== GENERATE STARS (REDUCED) =====
   function generateStars() {
     const starfield = document.getElementById('starfield');
-    const starCount = 80;
+    const starCount = 25; // Reduced from 80 to 25
     
     for (let i = 0; i < starCount; i++) {
       const star = document.createElement('div');
@@ -1267,7 +1319,6 @@
 
   const dots = dotsContainer.querySelectorAll('button');
   
-  // Handle scroll events for both dots and reveal
   stage.addEventListener('scroll', () => {
     const scrollPos = stage.scrollTop + (window.innerHeight / 2);
     sections.forEach((sec, i) => {
@@ -1279,7 +1330,6 @@
     handleScrollReveal();
   });
 
-  // Initial check for scroll reveal
   setTimeout(handleScrollReveal, 500);
 
   const envelope = document.getElementById('envelope');
@@ -1352,7 +1402,7 @@
     btnNo.classList.add('selected');
     btnYes.classList.remove('selected');
     guestsWrap.classList.remove('show');
-    contactWrap.classList.add('show');
+    contactWrap.classList.remove('show');
     document.getElementById('g-1').checked = true;
     validate();
   });
