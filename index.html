@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Joel &amp; Becky, Save the Date</title>
+<title>Joel &amp; Becky — Save the Date</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
@@ -601,60 +601,104 @@
     text-shadow: 0 2px 8px rgba(0,0,0,0.4);
   }
 
-  /* ================= SECTION 4 — SAVE THE DATE + COUNTDOWN ================= */
-  #s-date{ flex-direction:column; text-align:center; }
+  /* ================= SECTION 4 — COUNTDOWN ================= */
+  #s-date{ 
+    flex-direction:column; 
+    text-align:center; 
+    background: var(--sky-gradient);
+    padding: 30px 16px 20px;
+  }
   #s-date .content-container { position: relative; z-index: 2; }
-  .std-script{
-    font-family:'Mrs Saint Delafield', cursive;
-    font-size:clamp(55px, 16vw, 84px);
-    color:var(--royal-blue); line-height:1.05;
-  }
-  .std-for{ font-size:14px; letter-spacing:.15em; color:var(--sage); margin:12px 0 4px; text-transform:uppercase; font-weight:600;}
-  .std-event{
-    font-family:'Playfair Display', serif; font-style:italic; font-weight:600;
-    font-size:20px; color:var(--royal-bright); max-width:290px; margin:0 auto 24px; line-height:1.4;
-  }
-  .std-date{
-    font-family:'Playfair Display', serif; font-size:22px; letter-spacing:.06em; color:var(--gold);
-    margin-bottom:26px; font-weight:600;
-  }
 
   .cd-eyebrow-script{
-    font-family:'Mrs Saint Delafield', cursive; font-size:clamp(30px,8vw,42px);
-    color:var(--gold); line-height:1; margin-bottom:2px;
+    font-family:'Mrs Saint Delafield', cursive; 
+    font-size:clamp(28px, 7vw, 38px);
+    color:var(--gold); 
+    line-height:1; 
+    margin-bottom:0;
+    text-transform:lowercase;
   }
   .cd-heading{
-    font-family:'Playfair Display', serif; font-weight:700; letter-spacing:.22em;
-    font-size:clamp(20px,5.5vw,28px); color:var(--royal-blue); text-transform:uppercase; margin-bottom:6px;
+    font-family:'Playfair Display', serif; 
+    font-weight:700; 
+    letter-spacing:.22em;
+    font-size:clamp(18px, 5vw, 24px); 
+    color:var(--royal-blue); 
+    text-transform:uppercase; 
+    margin-bottom:4px;
   }
   .cd-subheading{
-    font-size:12px; letter-spacing:.28em; color:var(--sage); text-transform:uppercase;
-    font-weight:600; margin-bottom:26px;
+    font-size:11px; 
+    letter-spacing:.28em; 
+    color:var(--sage); 
+    text-transform:uppercase;
+    font-weight:600; 
+    margin-bottom:18px;
   }
 
-  .countdown{ display:flex; gap:12px; justify-content:center; margin-bottom:28px; }
+  .countdown{ 
+    display:flex; 
+    gap:10px; 
+    justify-content:center; 
+    margin-bottom:20px; 
+    background: rgba(255,255,255,0.6);
+    padding: 12px 16px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(201,163,90,0.15);
+  }
   .cd-box{
-    width:66px; background:rgba(27,68,119,.06); border:1px solid rgba(27,68,119,.15);
-    border-radius:8px; padding:10px 4px;
-    box-shadow:0 8px 20px -12px rgba(17,37,61,.25);
+    width:58px; 
+    background: transparent;
+    border: none;
+    padding: 4px 2px;
   }
   .cd-num{
-    font-family:'Playfair Display', serif; font-weight:700;
-    font-size:26px; color:var(--royal-blue); font-variant-numeric:tabular-nums;
+    font-family:'Playfair Display', serif; 
+    font-weight:700;
+    font-size:22px; 
+    color:var(--royal-blue); 
+    font-variant-numeric:tabular-nums;
+    letter-spacing: 1px;
   }
-  .cd-label{ font-size:10px; letter-spacing:.15em; color:var(--sage); text-transform:uppercase; margin-top:4px; font-weight:600;}
+  .cd-label{ 
+    font-size:9px; 
+    letter-spacing:.15em; 
+    color:var(--sage); 
+    text-transform:uppercase; 
+    margin-top:2px; 
+    font-weight:600; 
+  }
 
   .cd-photo-strip{
-    width:min(56vw, 210px); height:min(70vw, 260px); margin:0 auto; border-radius:14px; overflow:hidden;
-    box-shadow:0 20px 40px -18px rgba(17,37,61,.4); border:2px solid rgba(255,255,255,.7);
+    width:min(48vw, 180px); 
+    height:min(60vw, 220px); 
+    margin:0 auto; 
+    border-radius:12px; 
+    overflow:hidden;
+    box-shadow:0 20px 40px -18px rgba(17,37,61,.4); 
+    border:2px solid rgba(255,255,255,.7);
     position:relative;
   }
   .cd-photo-strip img{
-    width:100%; height:100%; object-fit:cover; object-position:center 22%;
+    width:100%; 
+    height:100%; 
+    object-fit:cover; 
+    object-position:center 22%;
   }
   .cd-photo-strip::after{
-    content:''; position:absolute; inset:0;
-    background:linear-gradient(180deg, rgba(11,26,46,0) 55%, rgba(11,26,46,.35) 100%);
+    content:''; 
+    position:absolute; 
+    inset:0;
+    background:linear-gradient(180deg, rgba(11,26,46,0) 55%, rgba(11,26,46,.25) 100%);
+  }
+  
+  .cd-photo-caption {
+    font-family: 'Mrs Saint Delafield', cursive;
+    font-size: 18px;
+    color: var(--royal-blue);
+    margin-top: 14px;
+    letter-spacing: 1px;
   }
 
   /* ================= SECTION 5 — RSVP ================= */
@@ -683,7 +727,6 @@
   .rsvp-title{ font-family:'Playfair Display', serif; font-weight:700; font-size:24px; color:var(--royal-blue); margin-bottom:4px;}
   .rsvp-sub{ font-size:15px; color:#4a5568; margin-bottom:22px; font-style:italic;}
 
-  /* ===== BLUE THEMED RSVP INFO CARD ===== */
   .rsvp-info-card {
     background: linear-gradient(145deg, #f0f4f9, #e8eef5);
     border: 1px solid rgba(17,54,99,0.15);
@@ -717,7 +760,6 @@
     color: var(--royal-blue);
   }
   
-  /* Phone numbers row */
   .rsvp-info-card .phone-row {
     display: flex;
     justify-content: center;
@@ -761,7 +803,6 @@
     color: var(--gold);
   }
   
-  /* Divider with dot */
   .rsvp-info-card .info-divider {
     display: flex;
     align-items: center;
@@ -782,7 +823,6 @@
     flex-shrink: 0;
   }
   
-  /* Info rows */
   .rsvp-info-card .info-row {
     display: flex;
     align-items: flex-start;
@@ -995,7 +1035,10 @@
         <div class="cd-box"><div class="cd-num" id="cd-s">00</div><div class="cd-label">Sec</div></div>
       </div>
 
-      <div class="cd-photo-strip"><img src="images/joel.jpeg" alt="Joel and Becky"></div>
+      <div class="cd-photo-strip">
+        <img src="images/joel.jpeg" alt="Joel and Becky">
+      </div>
+      <div class="cd-photo-caption">Joel &amp; Becky</div>
     </div>
   </section>
 
@@ -1009,7 +1052,6 @@
         <div class="rsvp-title">Kindly RSVP</div>
         <div class="rsvp-sub">For the Introduction &amp; Wedding Meeting Launch Dinner</div>
         
-        <!-- ===== BLUE THEMED RSVP INFO CARD ===== -->
         <div class="rsvp-info-card">
           <div class="info-title">✦ <span class="gold-acc">Event</span> Details ✦</div>
           
