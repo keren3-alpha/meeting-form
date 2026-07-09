@@ -739,7 +739,7 @@
     letter-spacing: 1px;
   }
 
-  /* ================= SECTION 5 — RSVP (ALL FIELDS VISIBLE) ================= */
+  /* ================= SECTION 5 — RSVP (WORKING WITH BUTTONS) ================= */
   #s-rsvp{
     background: linear-gradient(180deg, #edf3f8 0%, #dae5f0 100%);
     position:relative;
@@ -906,11 +906,10 @@
     color: var(--sage);
   }
 
-  /* ===== FIX: ALL RSVP FIELDS ALWAYS VISIBLE ===== */
+  /* ===== FORM FIELDS - HIDDEN BY DEFAULT, SHOWN ON BUTTON CLICK ===== */
   .field{ 
     text-align:left; 
     margin-bottom:16px; 
-    display:block !important; 
   }
   .field label{ 
     display:block; 
@@ -958,16 +957,18 @@
   }
   .yn-btn.selected{ background:var(--royal-blue); border-color:var(--royal-blue); color:var(--gold-light); box-shadow:0 6px 14px -6px rgba(17,54,99,.5);}
 
-  /* FIX: Guests and Contact fields ALWAYS visible - no hiding */
-  .guests-field, 
-  #contact-wrap,
-  .guests-field.show,
-  #contact-wrap.show {
-    max-height: none !important;
-    overflow: visible !important;
-    opacity: 1 !important;
-    display: block !important;
-    margin-bottom: 16px !important;
+  /* HIDDEN FIELDS - Initially hidden, shown when show class is added */
+  .hidden-fields { 
+    max-height: 0; 
+    overflow: hidden; 
+    transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.4s ease; 
+    margin-bottom: 0;
+    opacity: 0;
+  }
+  .hidden-fields.show { 
+    max-height: 600px; 
+    margin-bottom: 0; 
+    opacity: 1;
   }
 
   .radio-list{ display:flex; flex-direction:column; gap:8px; margin-top:4px; }
@@ -1043,6 +1044,7 @@
     .dots button { width: 8px; height: 8px; }
     .dots button.active { width: 10px; height: 10px; }
     #s-rsvp { padding-top:20px; padding-bottom:20px; min-height:auto; }
+    .hidden-fields.show { max-height: 800px; }
   }
 </style>
 </head>
@@ -1153,7 +1155,7 @@
     </div>
   </section>
 
-  <!-- SECTION 5: RSVP (ALL FIELDS VISIBLE) -->
+  <!-- SECTION 5: RSVP -->
   <section class="section" id="s-rsvp">
     <div class="corner tl"><svg viewBox="0 0 150 150"><path d="M0,0 Q40,10 45,50 Q50,90 90,95" stroke="#1b4477" stroke-width="1.2" fill="none" opacity="0.3"/><circle cx="8" cy="8" r="3" fill="#c9a35a"/></svg></div>
     <div class="corner br"><svg viewBox="0 0 150 150"><path d="M0,0 Q40,10 45,50 Q50,90 90,95" stroke="#1b4477" stroke-width="1.2" fill="none" opacity="0.3"/><circle cx="8" cy="8" r="3" fill="#c9a35a"/></svg></div>
@@ -1200,11 +1202,13 @@
           </div>
         </div>
         
+        <!-- NAME FIELD - Always visible -->
         <div class="field">
           <label for="guest-name">Your Full Name</label>
           <input type="text" id="guest-name" placeholder="e.g., John Doe" autocomplete="name">
         </div>
 
+        <!-- ATTENDANCE BUTTONS - Always visible -->
         <div class="field">
           <label>Will you attend?</label>
           <div class="yn-group">
@@ -1213,37 +1217,39 @@
           </div>
         </div>
 
-        <!-- GUESTS FIELD - ALWAYS VISIBLE -->
-        <div class="field guests-field">
-          <label>Number of Guests <span style="font-weight:400;color:var(--sage);font-size:12px;text-transform:none;letter-spacing:0;">(including yourself)</span></label>
-          <div class="radio-list">
-            <div class="radio-row">
-              <input type="radio" name="guest_count" value="1" id="g-1" checked>
-              <label for="g-1" class="radio-row-label"><span class="dot"></span>1 person (Just me)</label>
-            </div>
-            <div class="radio-row">
-              <input type="radio" name="guest_count" value="2" id="g-2">
-              <label for="g-2" class="radio-row-label"><span class="dot"></span>2 people (Me + 1)</label>
-            </div>
-            <div class="radio-row">
-              <input type="radio" name="guest_count" value="3" id="g-3">
-              <label for="g-3" class="radio-row-label"><span class="dot"></span>3 people (Me + 2)</label>
-            </div>
-            <div class="radio-row">
-              <input type="radio" name="guest_count" value="4" id="g-4">
-              <label for="g-4" class="radio-row-label"><span class="dot"></span>3+ people (Me + more)</label>
+        <!-- HIDDEN FIELDS - Shown when a button is clicked -->
+        <div class="hidden-fields" id="hidden-fields">
+          <div class="field">
+            <label>Number of Guests <span style="font-weight:400;color:var(--sage);font-size:12px;text-transform:none;letter-spacing:0;">(including yourself)</span></label>
+            <div class="radio-list">
+              <div class="radio-row">
+                <input type="radio" name="guest_count" value="1" id="g-1" checked>
+                <label for="g-1" class="radio-row-label"><span class="dot"></span>1 person (Just me)</label>
+              </div>
+              <div class="radio-row">
+                <input type="radio" name="guest_count" value="2" id="g-2">
+                <label for="g-2" class="radio-row-label"><span class="dot"></span>2 people (Me + 1)</label>
+              </div>
+              <div class="radio-row">
+                <input type="radio" name="guest_count" value="3" id="g-3">
+                <label for="g-3" class="radio-row-label"><span class="dot"></span>3 people (Me + 2)</label>
+              </div>
+              <div class="radio-row">
+                <input type="radio" name="guest_count" value="4" id="g-4">
+                <label for="g-4" class="radio-row-label"><span class="dot"></span>3+ people (Me + more)</label>
+              </div>
             </div>
           </div>
+
+          <div class="field">
+            <label for="guest-contact">Email or Phone Number</label>
+            <span class="hint">So we can send you updates or reach you if needed</span>
+            <input type="text" id="guest-contact" placeholder="e.g., name@email.com or 07XX XXX XXX" autocomplete="email">
+          </div>
+
+          <button type="button" class="submit-btn" id="submit-rsvp" disabled>Send RSVP</button>
         </div>
 
-        <!-- CONTACT FIELD - ALWAYS VISIBLE -->
-        <div class="field" id="contact-wrap">
-          <label for="guest-contact">Email or Phone Number</label>
-          <span class="hint">So we can send you updates or reach you if needed</span>
-          <input type="text" id="guest-contact" placeholder="e.g., name@email.com or 07XX XXX XXX" autocomplete="email">
-        </div>
-
-        <button type="button" class="submit-btn" id="submit-rsvp" disabled>Send RSVP</button>
         <div class="error-msg" id="error-msg">Please fill out all required fields.</div>
         <div class="rsvp-note">We look forward to celebrating with you!</div>
       </div>
@@ -1399,25 +1405,29 @@
   setInterval(updateCountdown, 1000);
   updateCountdown();
 
+  // ===== RSVP FORM LOGIC =====
   let attending = null;
   const nameInput = document.getElementById('guest-name');
   const contactInput = document.getElementById('guest-contact');
   const btnYes = document.getElementById('btn-yes');
   const btnNo = document.getElementById('btn-no');
+  const hiddenFields = document.getElementById('hidden-fields');
   const submitBtn = document.getElementById('submit-rsvp');
   const errorMsg = document.getElementById('error-msg');
 
-  btnYes.addEventListener('click', () => {
+  btnYes.addEventListener('click', function() {
     attending = 'yes';
     btnYes.classList.add('selected');
     btnNo.classList.remove('selected');
+    hiddenFields.classList.add('show');
     validate();
   });
 
-  btnNo.addEventListener('click', () => {
+  btnNo.addEventListener('click', function() {
     attending = 'no';
     btnNo.classList.add('selected');
     btnYes.classList.remove('selected');
+    hiddenFields.classList.add('show');
     document.getElementById('g-1').checked = true;
     validate();
   });
@@ -1425,14 +1435,14 @@
   function validate() {
     const hasName = nameInput.value.trim().length > 0;
     const hasAttending = attending !== null;
-    let isValid = hasName && hasAttending;
+    const isValid = hasName && hasAttending;
     submitBtn.disabled = !isValid;
     return isValid;
   }
 
   nameInput.addEventListener('input', validate);
 
-  submitBtn.addEventListener('click', async () => {
+  submitBtn.addEventListener('click', async function() {
     if (!validate()) {
       errorMsg.textContent = 'Please fill out all required fields.';
       errorMsg.style.display = 'block';
