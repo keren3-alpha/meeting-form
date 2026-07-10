@@ -8,6 +8,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
 <style>
+  /* ===== ALL YOUR EXISTING STYLES GO HERE ===== */
+  /* Keep all your CSS exactly as you have it */
+  
   :root{
     --royal-blue: #113663;
     --royal-deep: #0a213f;
@@ -521,7 +524,6 @@
     overflow: hidden;
   }
   
-  /* Calendar background with Joel's image */
   .calendar-bg {
     position: absolute;
     inset: 0;
@@ -1122,6 +1124,7 @@
         <span class="event-line reveal stagger-5"><span class="highlight-gold">Introduction</span> &amp; <span class="highlight-gold">Wedding Meeting</span> Launch Dinner</span>
         <span class="event-date reveal stagger-6">July 31, 2026 <span class="gold-dash">—</span> Busunju</span>
       </div>
+      <div class="down-hint"><span>Scroll to RSVP</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
     </div>
   </section>
 
@@ -1356,7 +1359,11 @@
   generateStars();
   typeText();
 
+  // =============================================
+  // IMPORTANT: UPDATE THIS URL WITH YOUR ACTUAL GOOGLE SCRIPT URL
+  // =============================================
   const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyq_eWEoHmBURE9DmAthKFySrjw4-JaIPPd_Ux9JA2NJuLqrGEgdKRbIEyqA9mlSI8Rig/exec";
+  
   const TARGET_DATE = new Date('2026-07-31T13:00:00+03:00');
 
   const stage = document.getElementById('stage');
@@ -1522,12 +1529,14 @@
     } catch(e) { console.error(e); }
 
     try {
-      await fetch(GOOGLE_SCRIPT_URL, {
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(entry)
       });
+      
+      console.log('RSVP sent successfully');
       
       document.getElementById('rsvp-form-wrap').style.display = 'none';
       const ty = document.getElementById('thankyou');
