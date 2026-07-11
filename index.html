@@ -3,14 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Joel &amp; Becky — Save the Date</title>
+<title>Joel &amp; Becky, Save the Date</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Mrs+Saint+Delafield&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
-  /* ===== ALL YOUR EXISTING STYLES GO HERE ===== */
-  /* Keep all your CSS exactly as you have it */
-  
   :root{
     --royal-blue: #113663;
     --royal-deep: #0a213f;
@@ -471,6 +469,7 @@
     border:3px solid var(--gold);
     box-shadow:0 0 0 8px rgba(27,68,119,.08), 0 20px 40px -15px rgba(11,37,61,.3);
     margin:0 auto 24px; position: relative;
+    cursor: pointer;
   }
   .photo-frame img{
     position: absolute; top:0; left:0; width:100%; height:100%; 
@@ -478,6 +477,35 @@
     opacity: 0; transition: opacity 1.2s ease-in-out;
   }
   .photo-frame img.active-img { opacity: 1; }
+  
+  .photo-frame .gallery-hint {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    font-family: 'Cormorant Garamond', serif;
+    z-index: 10;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255,255,255,0.15);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    font-weight: 600;
+  }
+  .photo-frame:hover .gallery-hint,
+  .photo-frame:active .gallery-hint {
+    opacity: 1;
+  }
+  .photo-frame .gallery-hint i {
+    margin-right: 4px;
+    font-size: 10px;
+  }
   
   .names-script{
     font-family:'Mrs Saint Delafield', cursive;
@@ -657,6 +685,7 @@
     text-align:center; 
     background: var(--sky-gradient);
     padding: 30px 16px 20px;
+    cursor: pointer;
   }
   #s-date .content-container { position: relative; z-index: 2; }
 
@@ -685,12 +714,25 @@
     font-weight:600; 
     margin-bottom:18px;
   }
+  
+  .cd-click-hint {
+    font-size:11px;
+    color:var(--sage);
+    opacity:0.7;
+    margin-top:4px;
+    font-style:italic;
+    font-weight:400;
+    letter-spacing:0.05em;
+  }
+  .cd-click-hint i {
+    margin-right:4px;
+  }
 
   .countdown{ 
     display:flex; 
     gap:10px; 
     justify-content:center; 
-    margin-bottom:20px; 
+    margin-bottom:8px; 
     background: rgba(255,255,255,0.6);
     padding: 12px 16px;
     border-radius: 12px;
@@ -750,6 +792,129 @@
     color: var(--royal-blue);
     margin-top: 14px;
     letter-spacing: 1px;
+  }
+
+  /* ================= PHOTO GALLERY MODAL ================= */
+  .gallery-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0,0,0,0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    animation: modalFadeIn 0.4s ease;
+    overflow-y: auto;
+    padding: 20px 16px 30px;
+  }
+  .gallery-modal.open {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  @keyframes modalFadeIn {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  
+  .gallery-modal .modal-header {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0 16px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 12px 20px;
+    margin-bottom: 16px;
+  }
+  .gallery-modal .modal-title {
+    font-family: 'Mrs Saint Delafield', cursive;
+    font-size: 24px;
+    color: var(--gold-light);
+    letter-spacing: 1px;
+  }
+  .gallery-modal .modal-close {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .gallery-modal .modal-close:hover {
+    background: rgba(255,255,255,0.2);
+    transform: rotate(90deg);
+  }
+  
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    max-width: 600px;
+    width: 100%;
+    padding-bottom: 20px;
+  }
+  .gallery-grid .gallery-item {
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 1/1;
+    border: 2px solid rgba(255,255,255,0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  .gallery-grid .gallery-item:hover {
+    transform: scale(1.04);
+    border-color: var(--gold);
+    z-index: 2;
+    box-shadow: 0 8px 30px rgba(201,163,90,0.2);
+  }
+  .gallery-grid .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .gallery-grid .gallery-item:hover img {
+    transform: scale(1.08);
+  }
+  
+  .gallery-grid .gallery-item .overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.3) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .gallery-grid .gallery-item:hover .overlay {
+    opacity: 1;
+  }
+  .gallery-grid .gallery-item .item-number {
+    position: absolute;
+    bottom: 8px;
+    right: 10px;
+    color: rgba(255,255,255,0.6);
+    font-size: 11px;
+    font-family: 'Cormorant Garamond', serif;
+    letter-spacing: 0.05em;
+    background: rgba(0,0,0,0.4);
+    padding: 2px 10px;
+    border-radius: 12px;
+    backdrop-filter: blur(4px);
+    font-weight: 600;
   }
 
   /* ================= SECTION 5 — RSVP ================= */
@@ -837,7 +1002,7 @@
   .rsvp-info-card .phone-item {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
     font-family: 'Playfair Display', serif;
     font-size: 15px;
     font-weight: 600;
@@ -857,7 +1022,7 @@
   }
   .rsvp-info-card .phone-item .icon {
     font-size: 16px;
-    opacity: 0.5;
+    opacity: 0.6;
   }
   .rsvp-info-card .phone-item a {
     color: var(--royal-blue);
@@ -902,8 +1067,7 @@
     text-align: center;
     flex-shrink: 0;
     color: var(--royal-blue);
-    opacity: 0.4;
-    font-weight: 300;
+    opacity: 0.5;
   }
   .rsvp-info-card .info-row .info-label {
     font-size: 10px;
@@ -944,6 +1108,10 @@
     margin-bottom:6px; 
     font-weight:600;
   }
+  .field label i {
+    margin-right: 6px;
+    opacity: 0.6;
+  }
   .field .hint{ 
     display:block; 
     font-size:12px; 
@@ -979,9 +1147,13 @@
     background:#fff; font-family:'Cormorant Garamond', serif; font-size:16px; font-weight:600;
     color:#4a5568; cursor:pointer; transition:all .2s; min-height:44px;
   }
+  .yn-btn i {
+    margin-right: 6px;
+  }
   .yn-btn.selected{ background:var(--royal-blue); border-color:var(--royal-blue); color:var(--gold-light); box-shadow:0 6px 14px -6px rgba(17,54,99,.5);}
+  .yn-btn.selected i { color: var(--gold-light); }
 
-  /* Hidden fields - shown when button clicked */
+  /* Hidden fields - shown conditionally */
   .hidden-fields { 
     max-height: 0; 
     overflow: hidden; 
@@ -1025,11 +1197,14 @@
     transition:background .2s, transform .15s; min-height:44px;
     box-shadow:0 10px 24px -12px rgba(17,54,99,.55);
   }
+  .submit-btn i { margin-right: 8px; }
   .submit-btn:disabled{ opacity:.5; cursor:not-allowed; box-shadow:none; }
   .submit-btn:not(:disabled):hover{ background:var(--royal-deep); }
   .submit-btn:not(:disabled):active{ transform:scale(.98); }
   .rsvp-note{ margin-top:16px; font-size:12px; color:var(--sage); font-weight:500; }
+  .rsvp-note i { margin-right: 4px; }
   .error-msg{ color:var(--pink); font-size:13px; margin-top:8px; display:none; }
+  .error-msg i { margin-right: 6px; }
 
   .thankyou{ display:none; }
   .thankyou.show{ display:block; }
@@ -1069,6 +1244,13 @@
     .dots button.active { width: 10px; height: 10px; }
     #s-rsvp { padding-top:15px; padding-bottom:40px; min-height:auto; }
     .hidden-fields.show { max-height: 800px; }
+    .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; }
+    .gallery-modal .modal-title { font-size: 20px; }
+    .gallery-modal .modal-close { width: 38px; height: 38px; font-size: 16px; }
+  }
+
+  @media (min-width: 768px) {
+    .gallery-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
   }
 </style>
 </head>
@@ -1114,9 +1296,18 @@
     <div class="corner br"><svg viewBox="0 0 150 150"><path d="M0,0 Q40,10 45,50 Q50,90 90,95" stroke="#1b4477" stroke-width="1.2" fill="none" opacity="0.4"/><circle cx="8" cy="8" r="3" fill="#c9a35a"/></svg></div>
     <div class="content-container">
       <div class="reveal-from reveal stagger-1">You are cordially invited by</div>
-      <div class="photo-frame reveal-scale stagger-2">
+      <div class="photo-frame reveal-scale stagger-2" onclick="openGallery()">
         <img src="Images/joel.jpeg" class="active-img" alt="Joel &amp; Becky Photo 1">
         <img src="Images/joel1.jpeg" alt="Joel &amp; Becky Photo 2">
+        <img src="Images/joel2.jpeg" alt="Joel &amp; Becky Photo 3">
+        <img src="Images/joel3.jpeg" alt="Joel &amp; Becky Photo 4">
+        <img src="Images/joel4.jpeg" alt="Joel &amp; Becky Photo 5">
+        <img src="Images/joel5.jpeg" alt="Joel &amp; Becky Photo 6">
+        <img src="Images/joel6.jpeg" alt="Joel &amp; Becky Photo 7">
+        <img src="Images/joel7.jpeg" alt="Joel &amp; Becky Photo 8">
+        <img src="Images/joel8.jpeg" alt="Joel &amp; Becky Photo 9">
+        <img src="Images/joel9.jpeg" alt="Joel &amp; Becky Photo 10">
+        <div class="gallery-hint"><i class="fas fa-images"></i> View All</div>
       </div>
       <div class="names-script reveal stagger-3">Joel &amp; Becky</div>
       <div class="event-details">
@@ -1124,7 +1315,6 @@
         <span class="event-line reveal stagger-5"><span class="highlight-gold">Introduction</span> &amp; <span class="highlight-gold">Wedding Meeting</span> Launch Dinner</span>
         <span class="event-date reveal stagger-6">July 31, 2026 <span class="gold-dash">—</span> Busunju</span>
       </div>
-      <div class="down-hint"><span>Scroll to RSVP</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M19 12l-7 7-7-7"/></svg></div>
     </div>
   </section>
 
@@ -1158,7 +1348,7 @@
   </section>
 
   <!-- SECTION 4: COUNTDOWN -->
-  <section class="section" id="s-date">
+  <section class="section" id="s-date" onclick="openGallery()">
     <div class="botanical-bg"></div>
     <div class="content-container">
       <div class="cd-eyebrow-script reveal stagger-1">the</div>
@@ -1171,11 +1361,13 @@
         <div class="cd-box"><div class="cd-num" id="cd-m">00</div><div class="cd-label">Min</div></div>
         <div class="cd-box"><div class="cd-num" id="cd-s">00</div><div class="cd-label">Sec</div></div>
       </div>
+      
+      <div class="cd-click-hint reveal stagger-5"><i class="fas fa-hand-pointer"></i> Tap anywhere here to view full photo gallery</div>
 
-      <div class="cd-photo-strip reveal-scale stagger-5">
+      <div class="cd-photo-strip reveal-scale stagger-6">
         <img src="Images/joel.jpeg" alt="Joel and Becky">
       </div>
-      <div class="cd-photo-caption reveal stagger-6">Joel &amp; Becky</div>
+      <div class="cd-photo-caption reveal stagger-7">Joel &amp; Becky</div>
     </div>
   </section>
 
@@ -1194,11 +1386,11 @@
           
           <div class="phone-row">
             <div class="phone-item">
-              <span class="icon">📞</span>
+              <span class="icon"><i class="fas fa-phone-alt"></i></span>
               <a href="tel:+256773549857">0773 549 857</a>
             </div>
             <div class="phone-item">
-              <span class="icon">📞</span>
+              <span class="icon"><i class="fas fa-phone-alt"></i></span>
               <a href="tel:+2567056355867">0705 635 5867</a>
             </div>
           </div>
@@ -1210,7 +1402,7 @@
           </div>
           
           <div class="info-row">
-            <span class="info-icon">⌂</span>
+            <span class="info-icon"><i class="fas fa-map-pin"></i></span>
             <div>
               <span class="info-label">Venue</span>
               <span class="info-value">Busunju Pentecostal Church</span>
@@ -1218,7 +1410,7 @@
           </div>
           
           <div class="info-row">
-            <span class="info-icon">◈</span>
+            <span class="info-icon"><i class="far fa-calendar-alt"></i></span>
             <div>
               <span class="info-label">Date &amp; Time</span>
               <span class="info-value">Friday, July 31, 2026 <span class="highlight">·</span> <small>1:00 PM</small></span>
@@ -1228,23 +1420,30 @@
         
         <!-- NAME FIELD - Always visible -->
         <div class="field">
-          <label for="guest-name">Your Full Name</label>
+          <label for="guest-name"><i class="fas fa-user"></i> Your Full Name</label>
           <input type="text" id="guest-name" placeholder="e.g., John Doe" autocomplete="name">
         </div>
 
         <!-- ATTENDANCE BUTTONS - Always visible -->
         <div class="field">
-          <label>Will you attend?</label>
+          <label><i class="fas fa-check-circle"></i> Will you attend?</label>
           <div class="yn-group">
-            <button type="button" class="yn-btn" id="btn-yes">Joyfully Attend</button>
-            <button type="button" class="yn-btn" id="btn-no">Regretfully Decline</button>
+            <button type="button" class="yn-btn" id="btn-yes"><i class="fas fa-smile"></i> Joyfully Attend</button>
+            <button type="button" class="yn-btn" id="btn-no"><i class="fas fa-frown"></i> Regretfully Decline</button>
           </div>
         </div>
 
-        <!-- HIDDEN FIELDS - Shown when "Joyfully Attend" is clicked -->
-        <div class="hidden-fields" id="hidden-fields">
+        <!-- CONTACT FIELD - ALWAYS VISIBLE (required for both) -->
+        <div class="field">
+          <label for="guest-contact"><i class="fas fa-envelope"></i> Email or Phone Number</label>
+          <span class="hint"><i class="fas fa-info-circle"></i> Required so we can send you updates or reach you if needed</span>
+          <input type="text" id="guest-contact" placeholder="e.g., name@email.com or 07XX XXX XXX" autocomplete="email">
+        </div>
+
+        <!-- GUEST COUNT - Only shown when "Joyfully Attend" is clicked -->
+        <div class="hidden-fields" id="guest-fields">
           <div class="field">
-            <label>Number of Guests <span style="font-weight:400;color:var(--sage);font-size:12px;text-transform:none;letter-spacing:0;">(including yourself)</span></label>
+            <label><i class="fas fa-users"></i> Number of Guests <span style="font-weight:400;color:var(--sage);font-size:12px;text-transform:none;letter-spacing:0;">(including yourself)</span></label>
             <div class="radio-list">
               <div class="radio-row">
                 <input type="radio" name="guest_count" value="1" id="g-1" checked>
@@ -1264,18 +1463,11 @@
               </div>
             </div>
           </div>
-
-          <div class="field">
-            <label for="guest-contact">Email or Phone Number</label>
-            <span class="hint">So we can send you updates or reach you if needed</span>
-            <input type="text" id="guest-contact" placeholder="e.g., name@email.com or 07XX XXX XXX" autocomplete="email">
-          </div>
-
-          <button type="button" class="submit-btn" id="submit-rsvp" disabled>Send RSVP</button>
         </div>
 
-        <div class="error-msg" id="error-msg">Please fill out all required fields.</div>
-        <div class="rsvp-note">We look forward to celebrating with you!</div>
+        <button type="button" class="submit-btn" id="submit-rsvp" disabled><i class="fas fa-paper-plane"></i> Send RSVP</button>
+        <div class="error-msg" id="error-msg"><i class="fas fa-exclamation-circle"></i> Please fill out all required fields.</div>
+        <div class="rsvp-note"><i class="fas fa-heart" style="color:var(--pink);"></i> We look forward to celebrating with you!</div>
       </div>
 
       <div class="thankyou" id="thankyou">
@@ -1287,6 +1479,17 @@
     </div>
   </section>
 
+</div>
+
+<!-- ===== PHOTO GALLERY MODAL ===== -->
+<div class="gallery-modal" id="galleryModal">
+  <div class="modal-header">
+    <span class="modal-title"><i class="fas fa-heart" style="color:var(--pink);margin-right:8px;"></i> Joel &amp; Becky</span>
+    <button class="modal-close" onclick="closeGallery()"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="gallery-grid" id="galleryGrid">
+    <!-- Images will be inserted here by JavaScript -->
+  </div>
 </div>
 
 <script>
@@ -1359,11 +1562,7 @@
   generateStars();
   typeText();
 
-  // =============================================
-  // IMPORTANT: UPDATE THIS URL WITH YOUR ACTUAL GOOGLE SCRIPT URL
-  // =============================================
-  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyq_eWEoHmBURE9DmAthKFySrjw4-JaIPPd_Ux9JA2NJuLqrGEgdKRbIEyqA9mlSI8Rig/exec";
-  
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyh3EUvoz1WbH6mf5WYhSoKthuYkO5xXiXZvkx-jJ-OuVuchhejbwwI2nOvjQzLiQR2/exec";
   const TARGET_DATE = new Date('2026-07-31T13:00:00+03:00');
 
   const stage = document.getElementById('stage');
@@ -1431,14 +1630,89 @@
     }
   });
 
+  // ===== IMAGE ROTATION - ALL IMAGES =====
   const images = document.querySelectorAll('.photo-frame img');
   let currentImageIdx = 0;
-  
-  setInterval(() => {
-    images[currentImageIdx].classList.remove('active-img');
-    currentImageIdx = (currentImageIdx + 1) % images.length;
+  const totalImages = images.length;
+
+  function rotateImages() {
+    // Remove active from all images
+    images.forEach(img => img.classList.remove('active-img'));
+    
+    // Move to next image
+    currentImageIdx = (currentImageIdx + 1) % totalImages;
+    
+    // Add active to current image
     images[currentImageIdx].classList.add('active-img');
-  }, 4000);
+  }
+
+  // Rotate every 4 seconds
+  setInterval(rotateImages, 4000);
+
+  // ===== GALLERY MODAL =====
+  const galleryImages = [
+    'Images/joel.jpeg',
+    'Images/joel1.jpeg',
+    'Images/joel2.jpeg',
+    'Images/joel3.jpeg',
+    'Images/joel4.jpeg',
+    'Images/joel5.jpeg',
+    'Images/joel6.jpeg',
+    'Images/joel7.jpeg',
+    'Images/joel8.jpeg',
+    'Images/joel9.jpeg',
+    'Images/joel10.jpeg',
+    'Images/joel11.jpeg',
+    'Images/joel12.jpeg',
+    // Add more images here as you add them to your folder
+  ];
+
+  function openGallery() {
+    const modal = document.getElementById('galleryModal');
+    const grid = document.getElementById('galleryGrid');
+    
+    // Clear existing content
+    grid.innerHTML = '';
+    
+    // Add images to grid
+    galleryImages.forEach((src, index) => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      item.innerHTML = `
+        <img src="${src}" alt="Joel &amp; Becky Photo ${index + 1}" loading="lazy">
+        <div class="overlay"></div>
+        <span class="item-number">${index + 1}/${galleryImages.length}</span>
+      `;
+      // Close modal when clicking an image
+      item.addEventListener('click', () => {
+        closeGallery();
+      });
+      grid.appendChild(item);
+    });
+    
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeGallery() {
+    const modal = document.getElementById('galleryModal');
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Close modal with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeGallery();
+    }
+  });
+
+  // Close modal when clicking outside the grid
+  document.getElementById('galleryModal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+      closeGallery();
+    }
+  });
 
   function updateCountdown() {
     const now = new Date();
@@ -1471,41 +1745,45 @@
   const contactInput = document.getElementById('guest-contact');
   const btnYes = document.getElementById('btn-yes');
   const btnNo = document.getElementById('btn-no');
-  const hiddenFields = document.getElementById('hidden-fields');
+  const guestFields = document.getElementById('guest-fields');
   const submitBtn = document.getElementById('submit-rsvp');
   const errorMsg = document.getElementById('error-msg');
 
+  // When "Joyfully Attend" is clicked
   btnYes.addEventListener('click', function() {
     attending = 'yes';
     btnYes.classList.add('selected');
     btnNo.classList.remove('selected');
-    hiddenFields.classList.add('show');
+    guestFields.classList.add('show');
     validate();
   });
 
+  // When "Regretfully Decline" is clicked
   btnNo.addEventListener('click', function() {
     attending = 'no';
     btnNo.classList.add('selected');
     btnYes.classList.remove('selected');
-    // HIDE the hidden fields when declining
-    hiddenFields.classList.remove('show');
+    guestFields.classList.remove('show');
     document.getElementById('g-1').checked = true;
     validate();
   });
 
   function validate() {
     const hasName = nameInput.value.trim().length > 0;
+    const hasContact = contactInput.value.trim().length > 0;
     const hasAttending = attending !== null;
-    const isValid = hasName && hasAttending;
+    const isValid = hasName && hasContact && hasAttending;
     submitBtn.disabled = !isValid;
     return isValid;
   }
 
   nameInput.addEventListener('input', validate);
+  contactInput.addEventListener('input', validate);
 
+  // ===== SUBMIT BUTTON LOGIC =====
   submitBtn.addEventListener('click', async function() {
     if (!validate()) {
-      errorMsg.textContent = 'Please fill out all required fields.';
+      errorMsg.textContent = 'Please fill out all required fields (Name, Contact, and Attendance).';
       errorMsg.style.display = 'block';
       return;
     }
@@ -1529,14 +1807,12 @@
     } catch(e) { console.error(e); }
 
     try {
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
+      await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(entry)
       });
-      
-      console.log('RSVP sent successfully');
       
       document.getElementById('rsvp-form-wrap').style.display = 'none';
       const ty = document.getElementById('thankyou');
@@ -1544,11 +1820,11 @@
       
       const firstName = entry.name.split(' ')[0];
       if (attending === 'yes') {
-        document.getElementById('ty-heading').textContent = 'See you there, ' + firstName + '!';
+        document.getElementById('ty-heading').textContent = '🎉 See you there, ' + firstName + '!';
         document.getElementById('ty-text').textContent = "We've received your RSVP and can't wait to celebrate with you.";
       } else {
-        document.getElementById('ty-heading').textContent = "We'll miss you, " + firstName;
-        document.getElementById('ty-text').textContent = "Thank you for letting us know. We appreciate your warm wishes!";
+        document.getElementById('ty-heading').textContent = "😢 We'll miss you, " + firstName;
+        document.getElementById('ty-text').textContent = "Thank you for letting us know. We'll keep you in our prayers and share updates with you via your contact info.";
       }
     } catch(error) {
       console.error('Error submitting RSVP:', error);
